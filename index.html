@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeRoad AI | 公益交通安全影像辨識計畫</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 FontAwesome 圖示 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        },
+                        safe: '#10b981',
+                        alert: '#ef4444'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- 導覽列 -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <i class="fa-solid fa-shield-heart text-brand-600 text-2xl"></i>
+                    <span class="font-bold text-xl tracking-tight text-slate-900">SafeRoad <span class="text-brand-600">AI</span></span>
+                    <span class="ml-2 text-xs bg-brand-100 text-brand-600 px-2 py-1 rounded-full font-medium">公益計畫</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#comparison" class="text-slate-600 hover:text-brand-600 font-medium transition">方案優勢</a>
+                    <a href="#features" class="text-slate-600 hover:text-brand-600 font-medium transition">核心功能</a>
+                    <a href="#compliance" class="text-slate-600 hover:text-brand-600 font-medium transition">法規與應用</a>
+                    <a href="#specs" class="text-slate-600 hover:text-brand-600 font-medium transition">違規場景</a>
+                    <a href="#demo" class="bg-brand-600 text-white px-5 py-2 rounded-full font-medium hover:bg-brand-700 transition shadow-lg shadow-brand-500/30">一鍵體驗</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. 首頁橫幅區 (Hero Section) -->
+    <section class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
+        <div class="md:w-1/2 flex flex-col items-start">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 text-brand-600 text-sm font-semibold mb-6 border border-brand-200">
+                <i class="fa-solid fa-code-branch"></i> 100% 開源公益，守護用路人
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-slate-900 mb-6">
+                將既有監視器 <br>
+                升級為 <span class="text-brand-600">AI 交通安全網</span>
+            </h1>
+            <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                零硬體採購門檻！SafeRoad AI 是一個致力於減少交通事故的公益專案。透過先進影像辨識技術，自動偵測未禮讓行人、未戴安全帽等危險行為，協助社區與偏鄉打造安全的交通環境。
+            </p>
+            <div class="flex gap-4">
+                <a href="#demo" class="bg-brand-600 text-white px-8 py-3 rounded-full font-bold text-lg hover:bg-brand-700 transition shadow-lg shadow-brand-500/30 flex items-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> 立即測試照片
+                </a>
+                <a href="https://github.com" target="_blank" class="bg-white text-slate-700 border border-slate-300 px-8 py-3 rounded-full font-bold text-lg hover:bg-slate-50 transition flex items-center gap-2">
+                    <i class="fa-brands fa-github"></i> 取得開源代碼
+                </a>
+            </div>
+        </div>
+        <div class="md:w-1/2 w-full">
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200 bg-white p-2">
+                <img src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?q=80&w=1000&auto=format&fit=crop" alt="路口交通示意圖" class="w-full h-auto rounded-xl filter brightness-95">
+                <!-- 模擬 AI 辨識框疊加 -->
+                <div class="absolute top-1/4 left-1/3 border-2 border-safe bg-safe/20 px-2 py-1 rounded text-white text-xs font-bold shadow-sm backdrop-blur-sm">行人 (98%)</div>
+                <div class="absolute bottom-1/3 right-1/4 border-2 border-alert bg-alert/20 px-2 py-1 rounded text-white text-xs font-bold shadow-sm backdrop-blur-sm">未禮讓行人</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 痛點與解決方案對照 (Why Choose Us) -->
+    <section id="comparison" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">為什麼社群需要 SafeRoad AI？</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">傳統的科技執法設備造價高昂，難以普及至所有易肇事路口與偏鄉。我們透過軟體技術打破硬體限制。</p>
+            </div>
+            
+            <div class="overflow-hidden rounded-2xl border border-slate-200 shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-200">
+                            <th class="p-5 font-semibold text-slate-500 w-1/4">比較面向</th>
+                            <th class="p-5 font-bold text-slate-900 w-3/8 border-l border-slate-200">傳統科技執法 / 人工站崗</th>
+                            <th class="p-5 font-bold text-brand-600 w-3/8 border-l border-slate-200 bg-brand-50/50">SafeRoad AI (開源公益方案)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="p-5 font-medium text-slate-700">建置成本與硬體</td>
+                            <td class="p-5 text-slate-600 border-l border-slate-200">需採購數百萬專屬攝影機與主機，建置期長。</td>
+                            <td class="p-5 text-slate-800 border-l border-slate-200 bg-brand-50/30 font-medium"><i class="fa-solid fa-check text-safe mr-2"></i>無硬體綁約，可直接串接路口既有 RTSP 監視器。</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-medium text-slate-700">人力需求</td>
+                            <td class="p-5 text-slate-600 border-l border-slate-200">高度依賴員警路口站崗，或人工回看監視器畫面。</td>
+                            <td class="p-5 text-slate-800 border-l border-slate-200 bg-brand-50/30 font-medium"><i class="fa-solid fa-check text-safe mr-2"></i>AI 24 小時自動化監控，減輕警力與導護志工負擔。</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-medium text-slate-700">即時性與告警</td>
+                            <td class="p-5 text-slate-600 border-l border-slate-200">事故發生後才調閱畫面釐清肇責。</td>
+                            <td class="p-5 text-slate-800 border-l border-slate-200 bg-brand-50/30 font-medium"><i class="fa-solid fa-check text-safe mr-2"></i>秒級辨識，可連動現場 LED 警示看板或廣播提醒。</td>
+                        </tr>
+                        <tr>
+                            <td class="p-5 font-medium text-slate-700">數據擴展性</td>
+                            <td class="p-5 text-slate-600 border-l border-slate-200">資料零散，難以統整各路口的違規熱點趨勢。</td>
+                            <td class="p-5 text-slate-800 border-l border-slate-200 bg-brand-50/30 font-medium"><i class="fa-solid fa-check text-safe mr-2"></i>自動生成車流、人流與違規熱點分析報表，輔助交通工程改善。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 核心功能矩陣 (Core Features) -->
+    <section id="features" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">核心 AI 辨識能力</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">針對台灣常見交通亂象訓練之專屬模型，適用於各種天候與光源環境。</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- 卡片 1 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-alert/10 text-alert rounded-lg flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-person-walking"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">未禮讓行人偵測</h3>
+                    <p class="text-slate-600 text-sm">精準計算車輛與行人於斑馬線上的相對距離，小於三公尺即自動標記違規。</p>
+                </div>
+                <!-- 卡片 2 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-brand-100 text-brand-600 rounded-lg flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-motorcycle"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">安全帽穿戴辨識</h3>
+                    <p class="text-slate-600 text-sm">自動鎖定機車騎士與乘客頭部，即使在夜間或背光環境，亦能準確判斷是否佩戴安全帽。</p>
+                </div>
+                <!-- 卡片 3 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-lg flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-truck-moving"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">大車內輪差警示</h3>
+                    <p class="text-slate-600 text-sm">建立虛擬電子圍籬，當大型車輛轉彎且有行人/機車進入盲區時，立即觸發告警。</p>
+                </div>
+                <!-- 卡片 4 -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center text-xl mb-4">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">車流與車種分析</h3>
+                    <p class="text-slate-600 text-sm">自動計數大客車、小客車、機車等不同車種流量，協助單位優化號誌時制計畫。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 法規與情境應用 (Use Cases & Compliance) -->
+    <section id="compliance" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12">
+            <div class="lg:w-1/2">
+                <h2 class="text-3xl font-bold text-slate-900 mb-6">接軌法規，落實交通零死亡願景 (Vision Zero)</h2>
+                <p class="text-slate-600 mb-6 leading-relaxed">
+                    本系統設計邏輯緊扣《道路交通管理處罰條例》，並非為了開罰，而是將 AI 化作無形的「導護志工」，於關鍵場域進行風險預防：
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-school text-brand-600 mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-slate-900">學校周邊學區 (School Zones)</h4>
+                            <p class="text-sm text-slate-600">保護學童上下學安全，偵測違規停車佔用行人穿越道，或未依規定減速之車輛。</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-traffic-light text-brand-600 mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-slate-900">無號誌易肇事路口</h4>
+                            <p class="text-sm text-slate-600">於郊區或偏鄉缺乏完整號誌之交叉路口，利用 AI 判斷來車並啟動閃光警示。</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <i class="fa-solid fa-road text-brand-600 mt-1"></i>
+                        <div>
+                            <h4 class="font-bold text-slate-900">行人庇護島與退縮斑馬線</h4>
+                            <p class="text-sm text-slate-600">檢視道路工程改善成效，透過 AI 長期追蹤車輛轉彎軌跡是否符合規範。</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="lg:w-1/2 w-full grid grid-cols-2 gap-4">
+                <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=600&auto=format&fit=crop" class="rounded-xl shadow-md h-48 object-cover w-full" alt="校園導護">
+                <img src="https://images.unsplash.com/photo-1616422285623-13ff0162193c?q=80&w=600&auto=format&fit=crop" class="rounded-xl shadow-md h-48 object-cover w-full mt-8" alt="夜間路口">
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 詳細規格清單 (8 大違規場景) -->
+    <section id="specs" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">8 大交通風險與違規辨識場景</h2>
+                <p class="text-slate-600 max-w-2xl mx-auto">模組化設計，單位可依據不同路口的事故特性，獨立啟用所需的偵測項目。</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-100 border-b border-slate-200">
+                        <tr>
+                            <th class="p-4 font-semibold text-slate-600">風險類別</th>
+                            <th class="p-4 font-semibold text-slate-600">辨識場景</th>
+                            <th class="p-4 font-semibold text-slate-600">AI 偵測能力與技術細節</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100 text-sm">
+                        <!-- 人員防護與行為 -->
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 text-slate-800 font-medium align-top" rowspan="3">人員行為與防護</td>
+                            <td class="p-4 text-slate-700 font-bold"><span class="w-2 h-2 inline-block rounded-full bg-alert mr-2"></span>未戴安全帽</td>
+                            <td class="p-4 text-slate-600">多人同框辨識，排除戴鴨舌帽或連帽外套的誤判。</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 text-slate-700 font-bold"><span class="w-2 h-2 inline-block rounded-full bg-alert mr-2"></span>行人違規穿越馬路</td>
+                            <td class="p-4 text-slate-600">判斷行人是否於非斑馬線區域（如快車道）穿越，及時警示來車。</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 text-slate-700 font-bold"><span class="w-2 h-2 inline-block rounded-full bg-alert mr-2"></span>夜間無反光警示</td>
+                            <td class="p-4 text-slate-600">分析低光源下行人與自行車騎士特徵，提醒缺乏警示裝備之風險。</td>
+                        </tr>
+                        <!-- 車輛違規 -->
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 text-slate-800 font-medium align-top" rowspan="3">車輛違規行為</td>
+                            <td class="p-4 text-slate-700 font-bold"><span class="w-2 h-2 inline-block rounded-full bg-alert mr-2"></span>未禮讓行人</td>
+                            <td class="p-4 text-slate-600">結合物件追蹤 (Object Tracking) 計算車頭與行人距離小於 3 個枕木紋。</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 text-slate-700 font-bold"><span class="w-2 h-2 inline-block rounded-full bg-alert mr-2"></span>紅線/公車停靠區違停</td>
+                            <td class="p-4 text-slate-600">設定停留時間閾值（如 3 分鐘），超時即判定為佔用。</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 text-slate-700 font-bold"><span class="w-2 h-2 inline-block rounded-full bg-alert mr-2"></span>逆向行駛</td>
+                            <td class="p-4 text-slate-600">透過向量分析判斷車輛行進方向與規定車道方向是否相符。</td>
+                        </tr>
+                        <!-- 環境與動線 -->
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 text-slate-800 font-medium align-top" rowspan="2">環境與動線衝突</td>
+                            <td class="p-4 text-slate-700 font-bold"><span class="w-2 h-2 inline-block rounded-full bg-alert mr-2"></span>大車內輪差盲區入侵</td>
+                            <td class="p-4 text-slate-600">動態計算大型車輛轉彎半徑，涵蓋盲區範圍並偵測進入物體。</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-4 text-slate-700 font-bold"><span class="w-2 h-2 inline-block rounded-full bg-alert mr-2"></span>佔用機車停等區</td>
+                            <td class="p-4 text-slate-600">判斷紅燈期間，汽車車體是否越線進入機車專用停等格。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. 互動體驗區 (一鍵體驗) -->
+    <section id="demo" class="py-20 bg-slate-900 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">一鍵體驗：交通影像 AI 分析</h2>
+            <p class="text-slate-400 mb-10">上傳任何一張包含路口、機車或行人的照片，立即測試網頁端 AI 辨識效果（本功能於瀏覽器內執行，保證隱私）。</p>
+            
+            <!-- 上傳區塊 -->
+            <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 border-dashed mb-8 hover:border-brand-500 transition-colors duration-300 relative">
+                <input type="file" id="imageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10">
+                <div class="flex flex-col items-center pointer-events-none">
+                    <i class="fa-solid fa-cloud-arrow-up text-5xl text-brand-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2">點擊或拖曳圖片至此上傳</h3>
+                    <p class="text-sm text-slate-400">支援 JPG, PNG 格式</p>
+                </div>
+            </div>
+
+            <!-- 載入動畫 (隱藏) -->
+            <div id="loader" class="hidden my-8">
+                <i class="fa-solid fa-circle-notch fa-spin text-brand-500 text-3xl mb-3"></i>
+                <p class="text-brand-300">AI 模型分析中，請稍候...</p>
+            </div>
+
+            <!-- 結果展示區 -->
+            <div id="resultContainer" class="hidden flex flex-col items-center">
+                <div class="w-full max-w-3xl relative rounded-lg overflow-hidden border-2 border-slate-700 shadow-2xl bg-slate-950">
+                    <!-- Canvas 用於繪製圖片與辨識框 -->
+                    <canvas id="canvas" class="max-w-full h-auto mx-auto block"></canvas>
+                </div>
+                
+                <div class="mt-6 flex gap-4 text-sm font-medium">
+                    <span class="flex items-center gap-2 px-3 py-1 bg-slate-800 rounded-md border border-slate-700"><span class="w-3 h-3 rounded-full bg-alert"></span> 違規/高風險對象</span>
+                    <span class="flex items-center gap-2 px-3 py-1 bg-slate-800 rounded-md border border-slate-700"><span class="w-3 h-3 rounded-full bg-safe"></span> 一般行人/車輛</span>
+                </div>
+                
+                <button onclick="resetDemo()" class="mt-8 text-slate-400 hover:text-white underline text-sm transition">
+                    重新測試一張
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer class="bg-slate-950 text-slate-500 py-12 text-center border-t border-slate-900">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="mb-4"><i class="fa-solid fa-shield-heart text-brand-600 mr-2"></i>SafeRoad AI 公益計畫 - 源自社群，守護生命</p>
+            <p class="text-sm">這是一個開源展示頁面，旨在推廣利用平民化 AI 科技改善交通環境。</p>
+        </div>
+    </footer>
+
+    <!-- 互動體驗 JavaScript 邏輯 -->
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const loader = document.getElementById('loader');
+        const resultContainer = document.getElementById('resultContainer');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            // 隱藏上傳區，顯示載入動畫
+            imageInput.parentElement.classList.add('hidden');
+            loader.classList.remove('hidden');
+            resultContainer.classList.add('hidden');
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    // 設定 canvas 尺寸與圖片一致
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    
+                    // 模擬 AI 處理時間 (1.5秒)
+                    setTimeout(() => {
+                        loader.classList.add('hidden');
+                        resultContainer.classList.remove('hidden');
+                        
+                        // 1. 繪製原圖
+                        ctx.drawImage(img, 0, 0);
+
+                        // 2. 模擬 AI 辨識邏輯：隨機在圖上畫幾個辨識框
+                        // 設定文字大小，根據圖片寬度動態調整
+                        const fontSize = Math.max(16, Math.floor(img.width * 0.025));
+                        ctx.font = `bold ${fontSize}px sans-serif`;
+                        ctx.textBaseline = 'top';
+
+                        // 模擬辨識物件清單 (交通情境)
+                        const detections = [
+                            { label: "未戴安全帽 (95%)", color: "#ef4444", isAlert: true, x: 0.2, y: 0.3, w: 0.15, h: 0.2 },
+                            { label: "行人 (98%)", color: "#10b981", isAlert: false, x: 0.6, y: 0.4, w: 0.12, h: 0.4 },
+                            { label: "車輛 (88%)", color: "#3b82f6", isAlert: false, x: 0.1, y: 0.5, w: 0.3, h: 0.3 },
+                            { label: "違規跨越 (91%)", color: "#ef4444", isAlert: true, x: 0.45, y: 0.55, w: 0.1, h: 0.25 }
+                        ];
+
+                        // 隨機選 2-3 個框畫上去，營造真實感
+                        const numBoxes = Math.floor(Math.random() * 2) + 2; // 2 or 3 boxes
+                        // 洗牌陣列
+                        const shuffled = detections.sort(() => 0.5 - Math.random());
+                        
+                        for (let i = 0; i < numBoxes; i++) {
+                            const d = shuffled[i];
+                            const rx = d.x * img.width;
+                            const ry = d.y * img.height;
+                            const rw = d.w * img.width;
+                            const rh = d.h * img.height;
+
+                            // 畫框
+                            ctx.lineWidth = Math.max(3, Math.floor(img.width * 0.005));
+                            ctx.strokeStyle = d.color;
+                            ctx.strokeRect(rx, ry, rw, rh);
+
+                            // 畫標籤背景
+                            const textWidth = ctx.measureText(d.label).width;
+                            const padding = fontSize * 0.4;
+                            ctx.fillStyle = d.color;
+                            ctx.fillRect(rx, ry - fontSize - (padding * 2), textWidth + (padding * 2), fontSize + (padding * 2));
+
+                            // 畫標籤文字
+                            ctx.fillStyle = '#ffffff';
+                            ctx.fillText(d.label, rx + padding, ry - fontSize - padding);
+                        }
+
+                    }, 1500);
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // 重置功能
+        function resetDemo() {
+            resultContainer.classList.add('hidden');
+            imageInput.parentElement.classList.remove('hidden');
+            imageInput.value = ''; // 清空 input
+            // 捲動回上傳區
+            document.getElementById('demo').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
