@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【實作講義】交通安全邊緣運算網頁與部署</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 FontAwesome 圖示 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .code-block { position: relative; }
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .copy-btn:hover { background: rgba(255, 255, 255, 0.2); }
+        .copy-btn.copied { background: #10b981; border-color: #10b981; }
+        pre { overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 leading-relaxed">
+
+    <!-- 頂部橫幅 -->
+    <header class="bg-blue-900 text-white py-12 px-4 shadow-md">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-4">生成式 AI 輔助開發</h1>
+            <h2 class="text-xl md:text-2xl text-blue-200">交通安全邊緣運算網頁與部署 - 實作講義</h2>
+            <p class="mt-6 text-slate-300">帶領你從提示詞工程、模型部署，到完成專屬的 AI 交通安全公益宣傳網站。</p>
+        </div>
+    </header>
+
+    <!-- 內容區域 -->
+    <main class="max-w-4xl mx-auto px-4 py-12 space-y-12">
+
+        <!-- 任務一 -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-blue-800 border-b-2 border-blue-100 pb-3 mb-6">
+                <i class="fa-solid fa-1 text-blue-500 mr-2"></i>任務一：運用 AI 生成網站框架
+            </h2>
+            <p class="mb-4">請將以下提示詞（Prompt）複製到 Google Gemini 或 ChatGPT 中，並將括號內的文字修改為你的專題主題，讓 AI 幫你生成網頁骨架。</p>
+            
+            <div class="code-block bg-slate-800 rounded-lg p-4 text-slate-200 relative mt-4">
+                <button class="copy-btn"><i class="fa-regular fa-copy"></i> 複製</button>
+                <pre class="font-mono text-sm leading-relaxed">你是一位資深的前端工程師。請幫我用單一的 index.html 檔案，搭配 Tailwind CSS，寫一個【主題：偏鄉校園周邊交通安全 AI 計畫】的公益宣傳網頁。
+
+網頁必須包含以下 5 個區塊（由上而下）：
+1. 首頁橫幅 (Hero Section)：吸睛標題與行動呼籲按鈕。
+2. 痛點對照表 (Why Choose Us)：比較傳統交通執法與開源 AI 的差異。
+3. 核心功能矩陣 (Core Features)：卡片式設計，展示 4 種 AI 交通辨識能力。
+4. 法規與應用場景 (Use Cases)：說明可以應用在哪些危險路口。
+5. 8 大違規場景規格清單：用表格呈現具體的偵測項目。
+
+程式碼請保持簡潔，配色請使用科技藍與安全綠，並預留一個 ID 為 'demo' 的區塊讓我後續放互動體驗。</pre>
+            </div>
+            <p class="mt-4 text-sm text-slate-500"><i class="fa-solid fa-circle-info"></i> 取得程式碼後，請在你的電腦建立一個 <code>index.html</code> 檔案並貼上。</p>
+        </section>
+
+        <!-- 任務二 -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-blue-800 border-b-2 border-blue-100 pb-3 mb-6">
+                <i class="fa-solid fa-2 text-blue-500 mr-2"></i>任務二：核心區塊內容客製化
+            </h2>
+            <p class="mb-4">網頁不能只是複製貼上！請用文字編輯器打開 <code>index.html</code>，找到對應區塊進行內容修改：</p>
+            <ul class="list-disc pl-6 space-y-3 text-slate-700">
+                <li><strong>痛點與解決方案：</strong>想想你們學校周邊的交通問題。是硬體建置太貴？還是警察無法24小時站崗？</li>
+                <li><strong>核心功能矩陣：</strong>除了未戴安全帽、未禮讓行人，你們這組還想增加什麼辨識項目？</li>
+                <li><strong>法規與情境應用：</strong>搜尋《道路交通管理處罰條例》，說明你的 AI 系統如何「輔助預防」。</li>
+                <li><strong>詳細規格清單：</strong>將違規場景寫得更具體，例如「距離3公尺內觸發警示」、「夜間光源不足的限制」。</li>
+            </ul>
+        </section>
+
+        <!-- 任務三 -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-blue-800 border-b-2 border-blue-100 pb-3 mb-6">
+                <i class="fa-solid fa-3 text-blue-500 mr-2"></i>任務三：整合 Roboflow Edge AI
+            </h2>
+            <p class="mb-6">我們要將訓練好的模型放進網頁中，實作「一鍵體驗」功能。請依序貼上以下三段程式碼：</p>
+
+            <h3 class="font-bold text-lg mb-2 text-slate-700">步驟 A：引入 AI 引擎</h3>
+            <p class="text-sm mb-2">找到網頁最上方的 <code>&lt;head&gt;</code> 與 <code>&lt;/head&gt;</code> 之間，貼上這行程式碼：</p>
+            <div class="code-block bg-slate-800 rounded-lg p-4 text-slate-200 mb-8">
+                <button class="copy-btn"><i class="fa-regular fa-copy"></i> 複製</button>
+                <pre class="font-mono text-sm leading-relaxed">&lt;!-- 引入 Roboflow 邊緣運算 JS 函式庫 --&gt;
+&lt;script src="https://cdn.roboflow.com/0.2.26/roboflow.js"&gt;&lt;/script&gt;</pre>
+            </div>
+
+            <h3 class="font-bold text-lg mb-2 text-slate-700">步驟 B：互動體驗區塊 (HTML UI)</h3>
+            <p class="text-sm mb-2">找到網頁中的 <code>&lt;section id="demo"&gt;</code> 區塊（將 AI 幫你寫的空區塊刪除），替換成以下程式碼：</p>
+            <div class="code-block bg-slate-800 rounded-lg p-4 text-slate-200 mb-8 h-64 overflow-y-auto relative">
+                <button class="copy-btn sticky top-0 float-right z-10"><i class="fa-regular fa-copy"></i> 複製</button>
+                <pre class="font-mono text-sm leading-relaxed">&lt;!-- 一鍵體驗區塊 (UI 介面) --&gt;
+&lt;section id="demo" class="py-20 bg-slate-900 text-white"&gt;
+    &lt;div class="max-w-4xl mx-auto px-4 text-center"&gt;
+        &lt;h2 class="text-3xl font-bold mb-4"&gt;一鍵體驗：交通影像 AI 分析&lt;/h2&gt;
+        &lt;p class="text-slate-400 mb-10"&gt;照片不會上傳至雲端，全程在您的瀏覽器內進行 AI 邊緣運算，保護隱私。&lt;/p&gt;
+        
+        &lt;!-- 上傳按鈕區 --&gt;
+        &lt;div id="uploadBox" class="bg-slate-800 rounded-2xl p-8 border border-slate-700 border-dashed hover:border-blue-500 transition-colors relative"&gt;
+            &lt;input type="file" id="imageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"&gt;
+            &lt;div class="flex flex-col items-center pointer-events-none"&gt;
+                &lt;i class="fa-solid fa-cloud-arrow-up text-5xl text-blue-500 mb-4"&gt;&lt;/i&gt;
+                &lt;h3 class="text-xl font-semibold mb-2"&gt;點擊或拖曳交通照片至此上傳&lt;/h3&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 載入中的動畫 --&gt;
+        &lt;div id="loader" class="hidden my-8"&gt;
+            &lt;p class="text-blue-300 text-lg font-bold animate-pulse"&gt;AI 模型推論中，請稍候...&lt;/p&gt;
+        &lt;/div&gt;
+
+        &lt;!-- 辨識結果展示區 --&gt;
+        &lt;div id="resultContainer" class="hidden flex flex-col items-center"&gt;
+            &lt;div class="w-full max-w-3xl relative rounded-lg overflow-hidden border-2 border-slate-700 shadow-2xl"&gt;
+                &lt;canvas id="canvas" class="max-w-full h-auto mx-auto block"&gt;&lt;/canvas&gt;
+            &lt;/div&gt;
+            &lt;button onclick="resetDemo()" class="mt-8 bg-slate-700 text-white px-6 py-2 rounded-full hover:bg-slate-600 transition"&gt;
+                重新測試一張
+            &lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;</pre>
+            </div>
+
+            <h3 class="font-bold text-lg mb-2 text-slate-700">步驟 C：邊緣運算邏輯 (JavaScript)</h3>
+            <p class="text-sm mb-2">找到網頁最底部的 <code>&lt;/body&gt;</code> 標籤正上方，貼上以下邏輯程式碼。<strong class="text-red-500">注意：請務必修改程式碼最上方的 API Key 與專案 ID！</strong></p>
+            <div class="code-block bg-slate-800 rounded-lg p-4 text-slate-200 h-80 overflow-y-auto relative">
+                <button class="copy-btn sticky top-0 float-right z-10"><i class="fa-regular fa-copy"></i> 複製</button>
+                <pre class="font-mono text-sm leading-relaxed">&lt;!-- Roboflow AI 辨識邏輯 --&gt;
+&lt;script&gt;
+    /* ==========================================
+       👇 學生修改區塊 START 👇
+    ========================================== */
+    const RF_API_KEY = "rf_在這裡貼上你的API金鑰"; // 你的 Publishable API Key
+    const RF_PROJECT_ID = "你的專案名稱-abcd1"; // 你的專案 ID
+    const RF_VERSION = 1; // 你的模型版本號碼
+
+    function getColorByLabel(labelName) {
+        if (labelName === "No_Helmet" || labelName === "Jaywalking") {
+            return "#ef4444"; // 紅色 (違規)
+        } else if (labelName === "Vehicle") {
+            return "#3b82f6"; // 藍色 (車輛)
+        } else {
+            return "#10b981"; // 綠色 (預設)
+        }
+    }
+    /* ==========================================
+       👆 學生修改區塊 END 👆
+    ========================================== */
+
+    const imageInput = document.getElementById('imageInput');
+    const uploadBox = document.getElementById('uploadBox');
+    const loader = document.getElementById('loader');
+    const resultContainer = document.getElementById('resultContainer');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let model; 
+
+    roboflow.auth({ publishable_key: RF_API_KEY }).load({
+        model: RF_PROJECT_ID, version: RF_VERSION
+    }).then(function(m) {
+        model = m; console.log("AI 模型載入完成！");
+    }).catch(function(err) { console.error("模型載入失敗", err); });
+
+    imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        if (!model) { alert("AI 模型下載中，請稍候！"); return; }
+
+        uploadBox.classList.add('hidden');
+        loader.classList.remove('hidden');
+        resultContainer.classList.add('hidden');
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const img = new Image();
+            img.onload = function() {
+                canvas.width = img.width; canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                model.detect(img).then(function(predictions) {
+                    loader.classList.add('hidden');
+                    resultContainer.classList.remove('hidden');
+                    const fontSize = Math.max(16, Math.floor(img.width * 0.025));
+                    ctx.font = `bold ${fontSize}px sans-serif`; ctx.textBaseline = 'top';
+
+                    predictions.forEach(function(prediction) {
+                        const rx = prediction.x - (prediction.width / 2);
+                        const ry = prediction.y - (prediction.height / 2);
+                        const rw = prediction.width; const rh = prediction.height;
+                        const labelName = prediction.class;
+                        const confidence = Math.round(prediction.confidence * 100);
+                        const labelText = `${labelName} (${confidence}%)`;
+                        const boxColor = getColorByLabel(labelName);
+
+                        ctx.lineWidth = Math.max(3, Math.floor(img.width * 0.005));
+                        ctx.strokeStyle = boxColor; ctx.strokeRect(rx, ry, rw, rh);
+                        const textWidth = ctx.measureText(labelText).width;
+                        const padding = fontSize * 0.4;
+                        ctx.fillStyle = boxColor;
+                        ctx.fillRect(rx, ry - fontSize - (padding * 2), textWidth + (padding * 2), fontSize + (padding * 2));
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillText(labelText, rx + padding, ry - fontSize - padding);
+                    });
+                    if (predictions.length === 0) alert("未偵測到訓練目標！");
+                });
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+
+    function resetDemo() {
+        resultContainer.classList.add('hidden');
+        uploadBox.classList.remove('hidden');
+        imageInput.value = ''; 
+    }
+&lt;/script&gt;</pre>
+            </div>
+        </section>
+
+        <!-- 任務四 -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-blue-800 border-b-2 border-blue-100 pb-3 mb-6">
+                <i class="fa-brands fa-github text-blue-500 mr-2"></i>任務四：發布上線 (GitHub Pages)
+            </h2>
+            <ol class="list-decimal pl-6 space-y-4 text-slate-700">
+                <li><strong>建立 Repository：</strong>登入 GitHub，點擊右上角「+」選「New repository」。命名為 <code>traffic-ai-demo</code> 並設為 <strong>Public</strong>，點擊 Create。</li>
+                <li><strong>上傳網頁：</strong>點擊「uploading an existing file」，將你的 <code>index.html</code> 拖曳上傳，並點擊 Commit changes。</li>
+                <li><strong>啟用 Pages 服務：</strong>進入 Repository 的 <strong>Settings (設定)</strong>，左側選單點擊 <strong>Pages</strong>。</li>
+                <li><strong>選擇來源：</strong>在 Branch 下拉選單中，將 None 改選為 <code>main</code>（或 <code>master</code>），點擊 Save。</li>
+                <li><strong>取得網址：</strong>等待約 1~2 分鐘後重新整理，頁面上方會顯示你的專屬網址！</li>
+            </ol>
+        </section>
+
+        <!-- 任務五 -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 md:p-8">
+            <h2 class="text-2xl font-bold text-blue-800 border-b-2 border-blue-100 pb-3 mb-6">
+                <i class="fa-solid fa-laptop-code text-blue-500 mr-2"></i>任務五：網頁版 VS Code 客製化
+            </h2>
+            <p class="mb-4 text-slate-700">網站上線後，不需要每次都在電腦改檔重新上傳。利用 GitHub 隱藏密技，隨時隨地修改網頁：</p>
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
+                <p class="font-bold text-blue-900"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i> 魔法快捷鍵：</p>
+                <p class="mt-1 text-sm text-blue-800">在你的 GitHub 專案檔案列表畫面，確定輸入法為英文，按下鍵盤的 <kbd class="bg-white border border-slate-300 rounded px-2 py-1 mx-1 font-mono font-bold text-slate-800">.</kbd> (句號鍵)。</p>
+            </div>
+            <ol class="list-decimal pl-6 space-y-3 text-slate-700">
+                <li>畫面會瞬間切換成深色的 VS Code 編輯器。</li>
+                <li>左側點開 <code>index.html</code>，你可以在此修改文字內容、標題或更換顏色。</li>
+                <li>修改完成後，點擊左側邊欄第三個圖示<strong>「原始檔控制 (Source Control)」</strong>。</li>
+                <li>在 Message 框內簡短寫下修改紀錄（如：<code>更新組別名稱</code>）。</li>
+                <li>點擊 <strong>Commit & Push</strong>。約一分鐘後，重新整理你的專屬網址，網頁就會更新囉！</li>
+            </ol>
+        </section>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm mt-12">
+        <p>國家科學及技術委員會 (NSTC) 科教國合處 科普計畫</p>
+        <p class="mt-2">Copyright © 交通安全數位巡守隊計畫團隊</p>
+    </footer>
+
+    <!-- 處理「複製程式碼」按鈕的邏輯 -->
+    <script>
+        document.querySelectorAll('.copy-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // 找到與這顆按鈕在同一個 div 裡面的 pre 標籤
+                const pre = this.nextElementSibling;
+                const codeText = pre.innerText;
+
+                // 複製到剪貼簿
+                navigator.clipboard.writeText(codeText).then(() => {
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fa-solid fa-check"></i> 已複製';
+                    this.classList.add('copied');
+                    
+                    // 2秒後恢復原狀
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.classList.remove('copied');
+                    }, 2000);
+                }).catch(err => {
+                    console.error('複製失敗: ', err);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
