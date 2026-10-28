@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科普活動：人工智慧在交通安全科學之應用與推廣</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .gradient-bg { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans leading-relaxed">
+
+    <!-- 導覽列 -->
+    <nav class="fixed w-full bg-white shadow-md z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-bold text-xl text-blue-900">交通安全AI科普計畫</span>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <a href="#about" class="text-gray-600 hover:text-blue-600 font-medium">計畫簡介</a>
+                    <a href="#workshop" class="text-gray-600 hover:text-blue-600 font-medium">AI工作坊</a>
+                    <a href="#hackathon" class="text-gray-600 hover:text-blue-600 font-medium">黑客松競賽</a>
+                    <a href="#showcase" class="text-gray-600 hover:text-blue-600 font-medium">成果展示</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首頁橫幅 -->
+    <header class="gradient-bg text-white pt-32 pb-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">科普活動：人工智慧在交通安全科學之應用與推廣 <br><span class="text-2xl md:text-3xl font-medium text-blue-200">—以 Google 街景標註與 AI 模型訓練促進道路危險熱點辨識教育計畫(主題二)[cite: 1]</span></h1>
+            <div class="mt-8 flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8 text-lg">
+                <p>執行機構：龍華科技大學[cite: 1]</p>
+                <p>計畫主持人：梅明德[cite: 1]</p>
+                <p>執行期限：115/08~116/07[cite: 1]</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- 計畫簡介 -->
+    <section id="about" class="py-16">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-blue-900 mb-8">計畫簡介</h2>
+            <div class="bg-white p-8 rounded-lg shadow-sm border border-gray-100 text-lg">
+                <ul class="list-disc pl-6 space-y-4">
+                    <li>本計畫屬於國科會科教國合處科普活動計畫，主要涉及工程、人文與資訊科技領域[cite: 1]。</li>
+                    <li>教學設計採取專題導向學習（Project-Based Learning, PBL）與情境式學習（Situated Learning）之混合教學模式[cite: 1]。</li>
+                    <li>活動對象主要為高中(職)學生與大專以上學生[cite: 1]。</li>
+                    <li>活動辦理地區涵蓋桃園市（龜山、桃園區）、台中市（西屯、烏日區）以及高雄市（鼓山、大寮區）[cite: 1]。</li>
+                    <li>計畫預計辦理6場工作坊與1場線上與實體黑客松競賽，總計參加人數約500人次[cite: 1]。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 交通安全AI辨識工作坊 -->
+    <section id="workshop" class="py-16 bg-blue-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-blue-900 mb-4">交通安全 AI 辨識工作坊</h2>
+            <p class="text-center text-gray-600 mb-10">辦理時間：115/11-116/02[cite: 1] | 分北、中、南三區辦理[cite: 1]</p>
+            
+            <div class="overflow-x-auto bg-white rounded-lg shadow-sm">
+                <table class="min-w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-blue-900 text-white">
+                            <th class="py-4 px-6 font-semibold">時間</th>
+                            <th class="py-4 px-6 font-semibold">活動項目</th>
+                            <th class="py-4 px-6 font-semibold">執行重點</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr>
+                            <td class="py-4 px-6 whitespace-nowrap">09:00 - 10:20</td>
+                            <td class="py-4 px-6 font-medium text-blue-800">1. AI 與交通安全導論[cite: 1]</td>
+                            <td class="py-4 px-6">介紹 AI 影像辨識原理，以臺灣常見路口風險為例進行案例分析，建立 AI 為協助分析工具的核心觀念[cite: 1]。</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="py-4 px-6 whitespace-nowrap">10:30 - 12:00</td>
+                            <td class="py-4 px-6 font-medium text-blue-800">2. Google街景操作與危險辨識[cite: 1]</td>
+                            <td class="py-4 px-6">操作 Google 街景尋找指定路段，依據指南找出五大類危險因子，並產出觀察紀錄[cite: 1]。</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-6 whitespace-nowrap">13:00 - 14:15</td>
+                            <td class="py-4 px-6 font-medium text-blue-800">3. 影像標註實作[cite: 1]</td>
+                            <td class="py-4 px-6">使用 Roboflow 平台進行標註，利用 Bounding Box 標示危險因子，由助教引導修正以確保資料品質[cite: 1]。</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td class="py-4 px-6 whitespace-nowrap">14:15 - 15:15</td>
+                            <td class="py-4 px-6 font-medium text-blue-800">4. 模型訓練與測試[cite: 1]</td>
+                            <td class="py-4 px-6">將資料送入模型學習，觀察不同路況辨識結果，解析資料品質對準確率的影響[cite: 1]。</td>
+                        </tr>
+                        <tr>
+                            <td class="py-4 px-6 whitespace-nowrap">15:30 - 16:30</td>
+                            <td class="py-4 px-6 font-medium text-blue-800">5. 成果展示與反思[cite: 1]</td>
+                            <td class="py-4 px-6">小組展示標註成果與風險診斷，探討 AI 適用範圍與道路工程改善之公共議題討論[cite: 1]。</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 黑客松競賽 -->
+    <section id="hackathon" class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-blue-900 mb-4">交通安全數位巡守隊黑客松競賽</h2>
+            <p class="text-center text-gray-600 mb-10">辦理時間：115/04-116/05[cite: 1] | 採「長週期培力」模式[cite: 1]</p>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- 第一階段 -->
+                <div class="bg-white p-8 rounded-lg shadow-sm border-t-4 border-blue-500">
+                    <h3 class="text-xl font-bold text-blue-900 mb-4">第一階段：線上初賽與專題實作 (4週)[cite: 1]</h3>
+                    <p class="mb-4 text-gray-700">引導參賽隊伍完成從選定路口到產出診斷報告的歷程，依據書面報告與模型訓練成效，高中職組與大專組各擇優錄取10隊晉級[cite: 1]。</p>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                        <li><strong>任務 A (指定題)：AI 金眼獎</strong><br>推論主辦單位提供的 50 張魔王級 Google 街景原始影像，驗證模型的泛化能力與準確度[cite: 1]。</li>
+                        <li><strong>任務 B (自選題)：我的路口我守護</strong><br>自選 1 處真實路口截取街景圖，訓練模型並產出路口安全診斷報告[cite: 1]。</li>
+                        <li><strong>報告要求：</strong>需繳交 15-20 頁 PDF，包含問題意識、AI 技術實作、風險診斷圖及改善建議[cite: 1]。</li>
+                    </ul>
+                </div>
+
+                <!-- 第二階段 -->
+                <div class="bg-white p-8 rounded-lg shadow-sm border-t-4 border-yellow-500">
+                    <h3 class="text-xl font-bold text-blue-900 mb-4">第二階段：實體決賽日[cite: 1]</h3>
+                    <p class="mb-4 text-gray-700">暫定於 116年4月17日 (週六) 於龍華科技大學舉辦[cite: 1]。賽制包含「現場實測」與「簡報決審」兩部分[cite: 1]。</p>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-600">
+                        <li><strong>魔王題極限挑戰 (09:30-12:00)：</strong>現場釋出從未公開的高難度路況街景 (包含雨天、逆光)，隊伍需現場跑模型產出辨識結果[cite: 1]。</li>
+                        <li><strong>決賽簡報 (13:00-16:00)：</strong>每組 8 分鐘簡報與 5 分鐘統答，重點說明透過 AI 發現的危險[cite: 1]。</li>
+                        <li><strong>頒獎典禮：</strong>結算書面與實測總分，頒發金、銀、銅獎、佳作及特別獎[cite: 1]。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 成果展示空間 -->
+    <section id="showcase" class="py-16 bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">學生網頁與競賽成果展示</h2>
+            <p class="text-gray-400 mb-10">此區域將於計畫執行與競賽完畢後，展示各隊伍產出的「AI 路口診斷書面報告」、模型標註成果與優良示範網頁。</p>
+            
+            <!-- 預留展示網格 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 opacity-50">
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                    <div class="h-40 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                        <span class="text-gray-500">優秀作品建置中</span>
+                    </div>
+                    <h4 class="font-bold text-lg">高中職組 - 金獎作品預留區</h4>
+                    <p class="text-sm text-gray-400 mt-2">將展示獲獎隊伍之風險診斷圖與工程改善建議。</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                    <div class="h-40 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                        <span class="text-gray-500">優秀作品建置中</span>
+                    </div>
+                    <h4 class="font-bold text-lg">大專組 - 金獎作品預留區</h4>
+                    <p class="text-sm text-gray-400 mt-2">將展示獲獎隊伍之風險診斷圖與工程改善建議。</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg border border-gray-700">
+                    <div class="h-40 bg-gray-700 rounded mb-4 flex items-center justify-center">
+                        <span class="text-gray-500">優秀作品建置中</span>
+                    </div>
+                    <h4 class="font-bold text-lg">歷程紀錄與活動相片</h4>
+                    <p class="text-sm text-gray-400 mt-2">將展示工作坊實況與黑客松實體決賽紀錄。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer class="bg-white py-8 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>指導單位：國家科學及技術委員會 (NSTC) 科教國合處</p>
+            <p class="mt-2">主辦單位：龍華科技大學[cite: 1] | GitHub Pages 專案託管</p>
+        </div>
+    </footer>
+
+</body>
+</html>
