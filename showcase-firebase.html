@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>工作坊成果網頁展示（Firebase 版）｜交通安全 AI 辨識工作坊</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --primary: #0f766e;
+      --primary-hover: #115e59;
+      --accent: #1d4ed8;
+      --border: #dbe4ee;
+      --danger: #dc2626;
+      --ok: #15803d;
+      --warn: #b45309;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans TC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #134e4a 100%);
+      color: #ffffff;
+      padding: 18px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.12);
+    }
+    .header-inner {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.14);
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+    }
+    h1 { margin: 0; font-size: 1.25rem; letter-spacing: 0.01em; }
+    .subtitle { margin: 3px 0 0; font-size: 0.85rem; color: #cbd5e1; }
+    .status-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.84rem;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #f8fafc;
+      font-weight: 500;
+    }
+    .badge.connecting { color: #fde68a; background: rgba(217, 119, 6, 0.25); border-color: rgba(253, 230, 138, 0.45); }
+    .badge.connected { color: #bbf7d0; background: rgba(22, 163, 74, 0.25); border-color: rgba(187, 247, 208, 0.45); }
+    .badge.error { color: #fecaca; background: rgba(220, 38, 38, 0.3); border-color: rgba(254, 202, 202, 0.45); }
+    .badge.admin-on { color: #bfdbfe; background: rgba(29, 78, 216, 0.35); border-color: rgba(191, 219, 254, 0.5); }
+    main {
+      max-width: 980px;
+      margin: 24px auto;
+      padding: 0 24px 56px;
+      display: grid;
+      gap: 20px;
+    }
+    .zone-banner {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .zone-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+    .zone-card:hover { border-color: var(--primary); transform: translateY(-1px); }
+    .zone-card.selected {
+      border-color: var(--primary);
+      background: #f0fdfa;
+      box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.15);
+    }
+    .zone-title { font-weight: 700; font-size: 0.96rem; color: var(--text); }
+    .zone-venue { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
+    .zone-count { font-size: 0.82rem; font-weight: 600; color: var(--primary); margin-top: 6px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    }
+    .alert-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .alert-box.show { display: block; }
+    .dup-notice {
+      grid-column: 1 / -1;
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      color: #92400e;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      display: none;
+    }
+    .dup-notice.show { display: block; }
+    .dup-notice a { color: #b45309; font-weight: 600; }
+    .card-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    h2 { margin: 0; font-size: 1.06rem; }
+    .post-auth-hint {
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .post-auth-hint.verified {
+      color: var(--ok);
+      font-weight: 600;
+    }
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    form .full { grid-column: 1 / -1; }
+    .url-row {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 8px;
+      align-items: stretch;
+    }
+    .url-row input { flex: 1; min-width: 0; }
+    input, select, button {
+      font: inherit;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    input:focus, select:focus {
+      outline: 2px solid rgba(15, 118, 110, 0.22);
+      border-color: var(--primary);
+    }
+    button.primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.primary:hover:not(:disabled) { background: var(--primary-hover); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .fetch-hint {
+      grid-column: 1 / -1;
+      font-size: 0.8rem;
+      color: var(--muted);
+      min-height: 1.2em;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .filter-btn {
+      padding: 6px 12px;
+      font-size: 0.84rem;
+      border-radius: 999px;
+      background: #f8fafc;
+      color: var(--text);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .filter-btn:hover { border-color: #94a3b8; background: #f1f5f9; }
+    .filter-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+    .link-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .link-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      background: #fff;
+    }
+    .link-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--primary);
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .link-title:hover { text-decoration: underline; }
+    .link-url {
+      font-size: 0.82rem;
+      color: var(--muted);
+      word-break: break-all;
+      margin-top: 3px;
+    }
+    .link-meta {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .tag {
+      background: #f0fdfa;
+      color: #0f766e;
+      border: 1px solid #99f6e4;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+    .cohort-pill {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+    .spot-pill {
+      background: #fefce8;
+      color: #a16207;
+      border: 1px solid #fde047;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+    .owner-pill {
+      background: #f0fdf4;
+      color: #15803d;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+    .click-pill {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      color: #334155;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+    .actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .btn-sm {
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      background: #fff;
+      color: var(--text);
+      cursor: pointer;
+    }
+    header .btn-sm {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.28);
+    }
+    .btn-sm.danger { color: var(--danger); border-color: #fecaca; }
+    .btn-sm.locked { color: var(--muted); border-color: var(--border); }
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 28px 12px;
+    }
+    @media (max-width: 780px) {
+      .zone-banner { grid-template-columns: 1fr; }
+      form { grid-template-columns: 1fr; }
+      .url-row { flex-direction: column; }
+      .link-item { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">🚦</div>
+        <div>
+          <h1>工作坊成果網頁展示（Firebase 版）</h1>
+          <p class="subtitle">龍華科技大學・臺中科技大學・中山大學｜北・中・南三區學員成果牆</p>
+        </div>
+      </div>
+      <div class="status-group">
+        <span id="syncBadge" class="badge connecting">● 連線 Firebase 中...</span>
+        <span id="countBadge" class="badge">共 0 件成果</span>
+        <button id="adminToggleBtn" type="button" class="btn-sm">🔒 管理員登入</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="configAlert" class="alert-box"></div>
+
+    <!-- 三區快速導覽卡片 -->
+    <section class="zone-banner" aria-label="三區工作坊成果分區">
+      <button type="button" class="zone-card" data-zone="北區場（龍華科大）">
+        <div class="zone-title">📍 北區場（龍華科技大學）</div>
+        <div class="zone-venue">12/15 大學部・12/16 高中職（工管系）</div>
+        <div class="zone-count" id="zoneCountNorth">0 件成果網頁</div>
+      </button>
+      <button type="button" class="zone-card" data-zone="中區場（臺中科大）">
+        <div class="zone-title">📍 中區場（國立臺中科技大學）</div>
+        <div class="zone-venue">11/26 大學部・11/27 高中職</div>
+        <div class="zone-count" id="zoneCountCentral">0 件成果網頁</div>
+      </button>
+      <button type="button" class="zone-card" data-zone="南區場（中山大學）">
+        <div class="zone-title">📍 南區場（國立中山大學）</div>
+        <div class="zone-venue">12/03 大學部・12/04 高中職（電機系）</div>
+        <div class="zone-count" id="zoneCountSouth">0 件成果網頁</div>
+      </button>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>＋ 登錄學員成果網頁</h2>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span id="postAuthStatus" class="post-auth-hint">尚未驗證發布密碼</span>
+          <button id="clearPostAuthBtn" type="button" class="btn-sm" style="display:none;">忘記密碼</button>
+        </div>
+      </div>
+      <form id="linkForm">
+        <div class="url-row">
+          <input id="urlInput" type="url" placeholder="貼上學員成果網頁網址（例如 GitHub Pages 或簡報/診斷頁）" required />
+          <button id="fetchTitleBtn" type="button" class="btn-sm">自動抓標題</button>
+        </div>
+        <div id="fetchHint" class="fetch-hint"></div>
+        <div id="duplicateNotice" class="dup-notice"></div>
+
+        <input id="titleInput" type="text" placeholder="成果網頁名稱（可自動抓取或手動輸入）" />
+        <input id="intersectionInput" type="text" placeholder="分析路口或危險熱點（選填，例如：萬壽路一段某路口）" />
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <select id="categoryInput" style="flex:1; min-width:140px;">
+            <option value="北區場（龍華科大）">北區場（龍華科大）</option>
+            <option value="中區場（臺中科大）">中區場（臺中科大）</option>
+            <option value="南區場（中山大學）">南區場（中山大學）</option>
+            <option value="__CUSTOM__">＋ 自訂分區／標籤...</option>
+          </select>
+          <input
+            id="customCategoryInput"
+            type="text"
+            placeholder="輸入自訂分區或標籤"
+            maxlength="30"
+            style="flex:1; min-width:140px; display:none;"
+          />
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <select id="cohortInput" style="flex:1; min-width:120px;">
+            <option value="大專院校組">大專院校組</option>
+            <option value="高中職組">高中職組</option>
+            <option value="示範／其他">示範／其他</option>
+          </select>
+          <input id="authorInput" type="text" placeholder="組別或分享者（選填，預設匿名）" style="flex:1; min-width:140px;" />
+        </div>
+
+        <input id="postPassInput" type="password" placeholder="請輸入發布密碼（防洗版）" required />
+        <button id="submitBtn" type="submit" class="primary full">驗證密碼並發布成果網頁</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="toolbar">
+        <h2 style="margin:0;">各區學員成果網頁列表</h2>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+          <select id="cohortFilter" aria-label="學制組別篩選">
+            <option value="ALL_COHORTS">全部組別</option>
+            <option value="大專院校組">大專院校組</option>
+            <option value="高中職組">高中職組</option>
+          </select>
+          <select id="sortSelect" aria-label="排序方式">
+            <option value="newest">最新發布</option>
+            <option value="most_clicked">最多瀏覽</option>
+          </select>
+          <input id="searchInput" type="search" placeholder="搜尋成果名稱、路口、組別或網址..." />
+          <button id="exportJsonBtn" type="button" class="btn-sm">⬇ 匯出 JSON</button>
+        </div>
+      </div>
+      <div id="filterBar" class="filter-bar"></div>
+      <div id="linkList" class="link-list">
+        <div class="empty">正在載入成果資料...</div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      updateDoc,
+      deleteDoc,
+      doc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+    // =========================================================
+    // 1. Firebase 設定、密碼與防洗版冷卻秒數
+    // =========================================================
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.firebasestorage.app",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const POST_PASSWORD = "CHANGE_ME_POST_PASS";
+    const ADMIN_PASSWORD = "CHANGE_ME_ADMIN_PASS";
+    const COOLDOWN_SECONDS = 15;
+    const BASE_CATEGORIES = ["北區場（龍華科大）", "中區場（臺中科大）", "南區場（中山大學）"];
+
+    const COLLECTION_NAME = "aits_workshop_outcomes";
+    const CREATOR_KEY_STORAGE = "aits_showcase_creator_key_v1";
+    const POST_AUTH_SESSION_KEY = "aits_showcase_post_verified_v1";
+    const LAST_POST_TS_SESSION_KEY = "aits_showcase_last_post_ts_v1";
+
+    function getOrCreateCreatorKey() {
+      let key = localStorage.getItem(CREATOR_KEY_STORAGE);
+      if (!key) {
+        key = "u_" + crypto.randomUUID();
+        localStorage.setItem(CREATOR_KEY_STORAGE, key);
+      }
+      return key;
+    }
+
+    function getInitialCategoryFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const raw = (params.get("region") || params.get("zone") || "").trim();
+      if (!raw) return "全部";
+      if (raw.includes("北")) return "北區場（龍華科大）";
+      if (raw.includes("中")) return "中區場（臺中科大）";
+      if (raw.includes("南")) return "南區場（中山大學）";
+      return "全部";
+    }
+
+    const myCreatorKey = getOrCreateCreatorKey();
+    let isPostVerified = sessionStorage.getItem(POST_AUTH_SESSION_KEY) === "1";
+    let isAdminUnlocked = false;
+    let isSubmitting = false;
+    let isFetchingTitle = false;
+    let lastFetchedUrl = "";
+    let activeCategory = getInitialCategoryFromUrl();
+    let allLinks = [];
+    let currentFilteredLinks = [];
+    let db = null;
+
+    const syncBadge = document.getElementById("syncBadge");
+    const countBadge = document.getElementById("countBadge");
+    const adminToggleBtn = document.getElementById("adminToggleBtn");
+    const postAuthStatus = document.getElementById("postAuthStatus");
+    const clearPostAuthBtn = document.getElementById("clearPostAuthBtn");
+    const configAlert = document.getElementById("configAlert");
+    const linkForm = document.getElementById("linkForm");
+    const urlInput = document.getElementById("urlInput");
+    const fetchTitleBtn = document.getElementById("fetchTitleBtn");
+    const fetchHint = document.getElementById("fetchHint");
+    const duplicateNotice = document.getElementById("duplicateNotice");
+    const titleInput = document.getElementById("titleInput");
+    const intersectionInput = document.getElementById("intersectionInput");
+    const categoryInput = document.getElementById("categoryInput");
+    const customCategoryInput = document.getElementById("customCategoryInput");
+    const cohortInput = document.getElementById("cohortInput");
+    const authorInput = document.getElementById("authorInput");
+    const postPassInput = document.getElementById("postPassInput");
+    const submitBtn = document.getElementById("submitBtn");
+    const cohortFilter = document.getElementById("cohortFilter");
+    const sortSelect = document.getElementById("sortSelect");
+    const searchInput = document.getElementById("searchInput");
+    const exportJsonBtn = document.getElementById("exportJsonBtn");
+    const filterBar = document.getElementById("filterBar");
+    const linkList = document.getElementById("linkList");
+
+    function escapeHtml(str) {
+      const div = document.createElement("div");
+      div.textContent = str ?? "";
+      return div.innerHTML;
+    }
+
+    async function fetchPageTitle(rawUrl, { overwriteIfEmpty = true, silentOnFail = false } = {}) {
+      const trimmed = (rawUrl || "").trim();
+      if (!trimmed) return;
+      let parsed;
+      try {
+        parsed = new URL(trimmed);
+        if (!["http:", "https:"].includes(parsed.protocol)) return;
+      } catch {
+        return;
+      }
+
+      if (overwriteIfEmpty && titleInput.value.trim() !== "") return;
+      if (isFetchingTitle) return;
+
+      isFetchingTitle = true;
+      fetchTitleBtn.disabled = true;
+      fetchTitleBtn.textContent = "抓取中...";
+      fetchHint.textContent = "正在嘗試抓取網頁標題...";
+
+      let foundTitle = "";
+
+      try {
+        const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(parsed.toString())}`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json?.status === "success" && json?.data?.title) {
+            foundTitle = String(json.data.title).trim();
+          }
+        }
+      } catch {}
+
+      if (!foundTitle) {
+        try {
+          const proxyRes = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(parsed.toString())}`);
+          if (proxyRes.ok) {
+            const htmlText = await proxyRes.text();
+            const match = htmlText.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+            if (match && match[1]) {
+              const tmp = document.createElement("textarea");
+              tmp.innerHTML = match[1].trim();
+              foundTitle = tmp.value.replace(/\s+/g, " ").trim();
+            }
+          }
+        } catch {}
+      }
+
+      isFetchingTitle = false;
+      fetchTitleBtn.disabled = false;
+      fetchTitleBtn.textContent = "自動抓標題";
+
+      if (foundTitle) {
+        if (!titleInput.value.trim() || !overwriteIfEmpty) {
+          titleInput.value = foundTitle.slice(0, 180);
+        }
+        lastFetchedUrl = parsed.toString();
+        fetchHint.textContent = `✓ 已抓取標題：${foundTitle.slice(0, 80)}`;
+      } else if (!silentOnFail) {
+        fetchHint.textContent = "無法自動取得標題（可能受網站限制或 CORS），可手動填寫或直接發布。";
+      } else {
+        fetchHint.textContent = "";
+      }
+    }
+
+    urlInput.addEventListener("blur", () => {
+      const val = urlInput.value.trim();
+      if (val && val !== lastFetchedUrl && !titleInput.value.trim()) {
+        fetchPageTitle(val, { overwriteIfEmpty: true, silentOnFail: true });
+      }
+    });
+
+    fetchTitleBtn.addEventListener("click", () => {
+      const val = urlInput.value.trim();
+      if (!val) {
+        alert("請先貼上成果網頁網址！");
+        urlInput.focus();
+        return;
+      }
+      fetchPageTitle(val, { overwriteIfEmpty: false, silentOnFail: false });
+    });
+
+    categoryInput.addEventListener("change", () => {
+      const isCustom = categoryInput.value === "__CUSTOM__";
+      customCategoryInput.style.display = isCustom ? "block" : "none";
+      customCategoryInput.required = isCustom;
+      if (isCustom) customCategoryInput.focus();
+    });
+
+    function getSelectedCategory() {
+      if (categoryInput.value === "__CUSTOM__") {
+        return customCategoryInput.value.trim() || "其他";
+      }
+      return categoryInput.value;
+    }
+
+    function syncCategorySelectOptions() {
+      const prevSelectVal = categoryInput.value;
+      const customVal = customCategoryInput.value.trim();
+      const dynamicCats = [...new Set(allLinks.map((x) => (x.category || "其他").trim()).filter(Boolean))].filter(
+        (c) => !BASE_CATEGORIES.includes(c)
+      );
+      if (customVal && !BASE_CATEGORIES.includes(customVal) && !dynamicCats.includes(customVal)) {
+        dynamicCats.push(customVal);
+      }
+
+      const allOptions = [...BASE_CATEGORIES, ...dynamicCats];
+      categoryInput.innerHTML = [
+        ...allOptions.map((c) => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`),
+        `<option value="__CUSTOM__">＋ 自訂分區／標籤...</option>`
+      ].join("");
+
+      if (prevSelectVal === "__CUSTOM__") {
+        categoryInput.value = "__CUSTOM__";
+      } else if (allOptions.includes(prevSelectVal)) {
+        categoryInput.value = prevSelectVal;
+      } else if (BASE_CATEGORIES.includes(activeCategory)) {
+        categoryInput.value = activeCategory;
+      } else {
+        categoryInput.value = BASE_CATEGORIES[0];
+      }
+    }
+
+    exportJsonBtn.addEventListener("click", () => {
+      const sourceList = currentFilteredLinks.length > 0 ? currentFilteredLinks : allLinks;
+      if (sourceList.length === 0) {
+        alert("目前沒有可匯出的成果網頁資料。");
+        return;
+      }
+
+      const payload = {
+        program: "科普活動：人工智慧在交通安全科學之應用與推廣",
+        backend: "Firebase Firestore",
+        exportedAt: new Date().toISOString(),
+        activeCategory,
+        activeCohort: cohortFilter.value,
+        totalCount: sourceList.length,
+        outcomes: sourceList.map((item) => ({
+          id: item.id,
+          title: item.title,
+          url: item.url,
+          zoneOrCategory: item.category || "未指定",
+          cohort: item.cohort || "未指定組別",
+          intersection: item.intersection || "",
+          author: item.author || "匿名",
+          clicks: Number(item.clicks || 0),
+          createdAt: item.createdAt?.toDate ? item.createdAt.toDate().toISOString() : item.createdAt || null
+        }))
+      };
+
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+      a.href = url;
+      a.download = `aits-workshop-firebase-${stamp}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    function normalizeUrl(rawUrl) {
+      const trimmed = (rawUrl || "").trim();
+      if (!trimmed) return "";
+      try {
+        const u = new URL(trimmed);
+        u.protocol = u.protocol.toLowerCase();
+        u.hostname = u.hostname.toLowerCase();
+        const trackingKeys = [];
+        u.searchParams.forEach((_, k) => {
+          if (k.toLowerCase().startsWith("utm_")) trackingKeys.push(k);
+        });
+        trackingKeys.forEach((k) => u.searchParams.delete(k));
+        let normalized = u.toString();
+        if (normalized.endsWith("/") && u.pathname === "/") {
+          normalized = normalized.slice(0, -1);
+        }
+        return normalized.replace(/\/+$/, "");
+      } catch {
+        return trimmed.toLowerCase().replace(/\/+$/, "");
+      }
+    }
+
+    function findDuplicateLink(rawUrl) {
+      const norm = normalizeUrl(rawUrl);
+      if (!norm) return null;
+      return allLinks.find((item) => normalizeUrl(item.url) === norm) || null;
+    }
+
+    function refreshDuplicateNotice() {
+      const dup = findDuplicateLink(urlInput.value);
+      if (!dup) {
+        duplicateNotice.classList.remove("show");
+        duplicateNotice.innerHTML = "";
+        return;
+      }
+      duplicateNotice.classList.add("show");
+      duplicateNotice.innerHTML = `
+        ⚠️ <strong>偵測到重複網址：</strong>已存在於成果展示牆中 —
+        <a href="${escapeHtml(dup.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(dup.title || dup.url)}</a>
+        （${escapeHtml(dup.category || "")}・${escapeHtml(dup.author || "匿名")}）。若仍要發布，送出時將再次詢問確認。
+      `;
+    }
+
+    function getRemainingCooldownSeconds() {
+      if (COOLDOWN_SECONDS <= 0) return 0;
+      const lastTs = Number(sessionStorage.getItem(LAST_POST_TS_SESSION_KEY) || "0");
+      if (!lastTs) return 0;
+      const elapsedSec = (Date.now() - lastTs) / 1000;
+      const rem = Math.ceil(COOLDOWN_SECONDS - elapsedSec);
+      return rem > 0 ? rem : 0;
+    }
+
+    function updateSubmitButtonState() {
+      const rem = getRemainingCooldownSeconds();
+      if (isSubmitting) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "發布中...";
+        return;
+      }
+      if (rem > 0) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = `防洗版冷卻中（${rem} 秒後可再發布）`;
+        return;
+      }
+      submitBtn.disabled = false;
+      submitBtn.textContent = "驗證密碼並發布成果網頁";
+    }
+
+    setInterval(updateSubmitButtonState, 500);
+
+    function setStatus(type, text) {
+      syncBadge.className = `badge ${type}`;
+      syncBadge.textContent = text;
+    }
+
+    function updatePostAuthUI() {
+      if (isPostVerified) {
+        postAuthStatus.textContent = "✓ 本分頁已驗證發布密碼";
+        postAuthStatus.className = "post-auth-hint verified";
+        clearPostAuthBtn.style.display = "inline-block";
+        postPassInput.required = false;
+        postPassInput.placeholder = "已驗證發布密碼（可留空或重新輸入）";
+      } else {
+        postAuthStatus.textContent = "需輸入發布密碼才能上傳";
+        postAuthStatus.className = "post-auth-hint";
+        clearPostAuthBtn.style.display = "none";
+        postPassInput.required = true;
+        postPassInput.placeholder = "請輸入發布密碼（防洗版）";
+      }
+    }
+
+    clearPostAuthBtn.addEventListener("click", () => {
+      isPostVerified = false;
+      sessionStorage.removeItem(POST_AUTH_SESSION_KEY);
+      postPassInput.value = "";
+      updatePostAuthUI();
+    });
+
+    function updateAdminButton() {
+      if (isAdminUnlocked) {
+        adminToggleBtn.textContent = "🔓 管理員已解鎖（登出）";
+        adminToggleBtn.className = "btn-sm badge admin-on";
+      } else {
+        adminToggleBtn.textContent = "🔒 管理員登入";
+        adminToggleBtn.className = "btn-sm";
+      }
+    }
+
+    function canDeleteItem(item) {
+      if (isAdminUnlocked) return true;
+      return Boolean(item.creatorKey && item.creatorKey === myCreatorKey);
+    }
+
+    function verifyAdminPassword() {
+      const input = prompt("此成果非你登錄，請輸入管理員密碼以執行刪除：");
+      if (input === null) return false;
+      if (input === ADMIN_PASSWORD) {
+        isAdminUnlocked = true;
+        updateAdminButton();
+        render();
+        return true;
+      }
+      alert("管理員密碼錯誤，無法刪除！");
+      return false;
+    }
+
+    adminToggleBtn.addEventListener("click", () => {
+      if (isAdminUnlocked) {
+        isAdminUnlocked = false;
+        updateAdminButton();
+        render();
+        return;
+      }
+      const input = prompt("請輸入管理員密碼：");
+      if (input === null) return;
+      if (input === ADMIN_PASSWORD) {
+        isAdminUnlocked = true;
+        updateAdminButton();
+        render();
+        alert("已解鎖管理員權限，可刪除任何成果。");
+      } else {
+        alert("密碼錯誤！");
+      }
+    });
+
+    function formatTimestamp(ts) {
+      if (!ts) return "剛剛";
+      const date = typeof ts.toDate === "function" ? ts.toDate() : new Date(ts);
+      return date.toLocaleString("zh-TW", { hour12: false });
+    }
+
+    function getTimeMs(ts) {
+      if (!ts) return Date.now();
+      if (typeof ts.toMillis === "function") return ts.toMillis();
+      if (typeof ts.toDate === "function") return ts.toDate().getTime();
+      return new Date(ts).getTime() || 0;
+    }
+
+    function updateZoneCards() {
+      const northCount = allLinks.filter((x) => x.category === "北區場（龍華科大）").length;
+      const centralCount = allLinks.filter((x) => x.category === "中區場（臺中科大）").length;
+      const southCount = allLinks.filter((x) => x.category === "南區場（中山大學）").length;
+
+      document.getElementById("zoneCountNorth").textContent = `${northCount} 件成果網頁`;
+      document.getElementById("zoneCountCentral").textContent = `${centralCount} 件成果網頁`;
+      document.getElementById("zoneCountSouth").textContent = `${southCount} 件成果網頁`;
+
+      document.querySelectorAll(".zone-card").forEach((card) => {
+        card.classList.toggle("selected", card.dataset.zone === activeCategory);
+      });
+    }
+
+    document.querySelectorAll(".zone-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        const clickedZone = card.dataset.zone;
+        activeCategory = activeCategory === clickedZone ? "全部" : clickedZone;
+        render();
+      });
+    });
+
+    function renderFilterBar() {
+      const extraCats = [...new Set(allLinks.map((item) => (item.category || "其他").trim()).filter(Boolean))].filter(
+        (c) => !BASE_CATEGORIES.includes(c)
+      );
+      const allTabs = ["全部", ...BASE_CATEGORIES, ...extraCats];
+
+      filterBar.innerHTML = allTabs
+        .map((tab) => {
+          const isActive = activeCategory === tab;
+          const cnt =
+            tab === "全部"
+              ? allLinks.length
+              : allLinks.filter((i) => (i.category || "其他") === tab).length;
+          return `
+            <button
+              type="button"
+              class="filter-btn ${isActive ? "active" : ""}"
+              data-category="${escapeHtml(tab)}"
+            >
+              ${escapeHtml(tab)}（${cnt}）
+            </button>
+          `;
+        })
+        .join("");
+    }
+
+    filterBar.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-category]");
+      if (!btn) return;
+      activeCategory = btn.dataset.category;
+      render();
+    });
+
+    function render() {
+      syncCategorySelectOptions();
+      updateZoneCards();
+      renderFilterBar();
+
+      const keyword = searchInput.value.trim().toLowerCase();
+      const selectedCohort = cohortFilter.value;
+      countBadge.textContent = `共 ${allLinks.length} 件成果`;
+
+      let filtered = allLinks.filter((item) => {
+        const cat = item.category || "其他";
+        if (activeCategory !== "全部" && cat !== activeCategory) return false;
+        if (selectedCohort !== "ALL_COHORTS" && (item.cohort || "") !== selectedCohort) return false;
+        if (!keyword) return true;
+        return (
+          (item.title || "").toLowerCase().includes(keyword) ||
+          (item.url || "").toLowerCase().includes(keyword) ||
+          (item.intersection || "").toLowerCase().includes(keyword) ||
+          (item.cohort || "").toLowerCase().includes(keyword) ||
+          cat.toLowerCase().includes(keyword) ||
+          (item.author || "").toLowerCase().includes(keyword)
+        );
+      });
+
+      if (sortSelect.value === "most_clicked") {
+        filtered = [...filtered].sort((a, b) => (b.clicks || 0) - (a.clicks || 0));
+      } else {
+        filtered = [...filtered].sort((a, b) => getTimeMs(b.createdAt) - getTimeMs(a.createdAt));
+      }
+
+      currentFilteredLinks = filtered;
+
+      if (filtered.length === 0) {
+        linkList.innerHTML = `<div class="empty">目前沒有符合篩選條件的學員成果網頁。</div>`;
+        refreshDuplicateNotice();
+        return;
+      }
+
+      linkList.innerHTML = filtered
+        .map((item) => {
+          const isOwner = Boolean(item.creatorKey && item.creatorKey === myCreatorKey);
+          const allowed = canDeleteItem(item);
+          const clicks = Number(item.clicks || 0);
+          return `
+            <div class="link-item" data-id="${escapeHtml(item.id)}">
+              <div>
+                <a
+                  class="link-title"
+                  href="${escapeHtml(item.url)}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-click-id="${escapeHtml(item.id)}"
+                >
+                  ${escapeHtml(item.title || item.url)}
+                </a>
+                <div class="link-url">${escapeHtml(item.url)}</div>
+                <div class="link-meta">
+                  <span class="tag">${escapeHtml(item.category || "未指定分區")}</span>
+                  ${item.cohort ? `<span class="cohort-pill">${escapeHtml(item.cohort)}</span>` : ""}
+                  ${item.intersection ? `<span class="spot-pill">📍 路口：${escapeHtml(item.intersection)}</span>` : ""}
+                  <span class="click-pill">👁 瀏覽 ${clicks} 次</span>
+                  ${isOwner ? `<span class="owner-pill">你登錄的</span>` : ""}
+                  <span>團隊／分享者：${escapeHtml(item.author || "匿名")}</span>
+                  <span>•</span>
+                  <span>${escapeHtml(formatTimestamp(item.createdAt))}</span>
+                </div>
+              </div>
+              <div class="actions">
+                <button type="button" class="btn-sm copy-btn" data-url="${escapeHtml(item.url)}">複製網址</button>
+                <button
+                  type="button"
+                  class="btn-sm ${allowed ? "danger" : "locked"}"
+                  data-del-id="${escapeHtml(item.id)}"
+                  title="${allowed ? "刪除這筆成果" : "需為原登錄者或輸入管理員密碼"}"
+                >
+                  ${allowed ? "刪除" : "🔒 刪除"}
+                </button>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+
+      refreshDuplicateNotice();
+    }
+
+    async function incrementClicks(id) {
+      const target = allLinks.find((item) => String(item.id) === String(id));
+      if (!target) return;
+      const nextClicks = Number(target.clicks || 0) + 1;
+
+      allLinks = allLinks.map((item) =>
+        String(item.id) === String(id) ? { ...item, clicks: nextClicks } : item
+      );
+      render();
+
+      if (!db) return;
+      try {
+        await updateDoc(doc(db, COLLECTION_NAME, id), { clicks: nextClicks });
+      } catch (error) {
+        console.warn("更新瀏覽次數失敗:", error);
+      }
+    }
+
+    if (firebaseConfig.apiKey === "YOUR_API_KEY" || firebaseConfig.projectId === "YOUR_PROJECT_ID") {
+      setStatus("error", "● 尚未設定 Firebase");
+      configAlert.classList.add("show");
+      configAlert.innerHTML = `
+        <strong>尚未填入 Firebase 設定：</strong>請開啟此 HTML 檔案，替換 <code>firebaseConfig</code>、<code>POST_PASSWORD</code> 與 <code>ADMIN_PASSWORD</code> 後重新整理。
+      `;
+      linkList.innerHTML = `<div class="empty">等待設定 Firebase 連線中...</div>`;
+    } else {
+      try {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        const outcomesRef = collection(db, COLLECTION_NAME);
+        const q = query(outcomesRef, orderBy("createdAt", "desc"));
+
+        onSnapshot(
+          q,
+          (snapshot) => {
+            allLinks = snapshot.docs.map((d) => ({
+              id: d.id,
+              ...d.data()
+            }));
+            setStatus("connected", "● Firebase 已即時同步");
+            render();
+          },
+          (error) => {
+            console.error("Firestore 監聽錯誤:", error);
+            setStatus("error", "● 雲端連線異常");
+            configAlert.classList.add("show");
+            configAlert.textContent = `Firestore 讀取失敗（${error.code}）：請檢查網路連線或 Firestore 安全規則。`;
+          }
+        );
+
+        linkForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          if (isSubmitting) return;
+
+          const rem = getRemainingCooldownSeconds();
+          if (rem > 0) {
+            alert(`登錄太頻繁，請等待 ${rem} 秒後再發布！`);
+            updateSubmitButtonState();
+            return;
+          }
+
+          const enteredPass = postPassInput.value;
+          if (!isPostVerified || enteredPass.length > 0) {
+            if (enteredPass !== POST_PASSWORD) {
+              alert("發布密碼錯誤，無法登錄成果網頁！");
+              postPassInput.focus();
+              return;
+            }
+            isPostVerified = true;
+            sessionStorage.setItem(POST_AUTH_SESSION_KEY, "1");
+            updatePostAuthUI();
+          }
+
+          const url = urlInput.value.trim();
+          if (!url) return;
+
+          const dup = findDuplicateLink(url);
+          if (dup) {
+            const okDup = confirm(
+              `此成果網址已經登錄過了：\n名稱：${dup.title || dup.url}\n分區：${dup.category || "未指定"}\n分享者：${dup.author || "匿名"}\n\n確定仍要重複發布嗎？`
+            );
+            if (!okDup) return;
+          }
+
+          const title = titleInput.value.trim() || url;
+          const intersection = intersectionInput.value.trim();
+          const cohort = cohortInput.value;
+          const author = authorInput.value.trim() || "匿名";
+          const category = getSelectedCategory();
+
+          isSubmitting = true;
+          updateSubmitButtonState();
+
+          try {
+            await addDoc(outcomesRef, {
+              url,
+              title,
+              intersection,
+              cohort,
+              author,
+              category,
+              clicks: 0,
+              creatorKey: myCreatorKey,
+              createdAt: serverTimestamp()
+            });
+
+            if (COOLDOWN_SECONDS > 0) {
+              sessionStorage.setItem(LAST_POST_TS_SESSION_KEY, String(Date.now()));
+            }
+
+            urlInput.value = "";
+            titleInput.value = "";
+            intersectionInput.value = "";
+            customCategoryInput.value = "";
+            postPassInput.value = "";
+            lastFetchedUrl = "";
+            fetchHint.textContent = "";
+            refreshDuplicateNotice();
+          } catch (error) {
+            console.error("新增失敗:", error);
+            alert(`發布失敗（${error.code}）：請確認 Firestore 寫入權限。`);
+          } finally {
+            isSubmitting = false;
+            updateSubmitButtonState();
+          }
+        });
+
+        linkList.addEventListener("click", async (e) => {
+          const clickLink = e.target.closest("[data-click-id]");
+          if (clickLink) {
+            incrementClicks(clickLink.dataset.clickId);
+            return;
+          }
+
+          const copyBtn = e.target.closest(".copy-btn");
+          if (copyBtn) {
+            const targetUrl = copyBtn.dataset.url;
+            try {
+              await navigator.clipboard.writeText(targetUrl);
+              const oldText = copyBtn.textContent;
+              copyBtn.textContent = "已複製";
+              setTimeout(() => (copyBtn.textContent = oldText), 1200);
+            } catch {
+              alert("無法自動複製，請手動複製：" + targetUrl);
+            }
+            return;
+          }
+
+          const delBtn = e.target.closest("[data-del-id]");
+          if (delBtn) {
+            const docId = delBtn.dataset.delId;
+            const targetItem = allLinks.find((item) => String(item.id) === String(docId));
+            if (!targetItem) return;
+
+            if (!canDeleteItem(targetItem)) {
+              const ok = verifyAdminPassword();
+              if (!ok) return;
+            }
+
+            if (!confirm(`確定要刪除成果「${targetItem.title || targetItem.url}」嗎？`)) return;
+
+            delBtn.disabled = true;
+            try {
+              await deleteDoc(doc(db, COLLECTION_NAME, docId));
+            } catch (error) {
+              console.error("刪除失敗:", error);
+              alert(`刪除失敗（${error.code}）：請確認 Firestore 刪除權限。`);
+              delBtn.disabled = false;
+            }
+          }
+        });
+      } catch (err) {
+        console.error("Firebase 初始化失敗:", err);
+        setStatus("error", "● 初始化失敗");
+      }
+    }
+
+    urlInput.addEventListener("input", refreshDuplicateNotice);
+    cohortFilter.addEventListener("change", render);
+    sortSelect.addEventListener("change", render);
+    searchInput.addEventListener("input", render);
+    updatePostAuthUI();
+    updateAdminButton();
+    updateSubmitButtonState();
+    render();
+  </script>
+</body>
+</html>
