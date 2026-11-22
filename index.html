@@ -194,69 +194,74 @@
             <h2 class="text-3xl font-bold mb-4">學生網頁與競賽成果展示</h2>
             <p class="text-gray-400 mb-10">此區域將於計畫執行與競賽完畢後，展示各隊伍產出的「AI 路口診斷書面報告」、模型標註成果與優良示範網頁。</p>
             
-    <!-- 工作坊成果網頁展示｜精簡嵌入版（僅顯示各區成果與網址，不含標題列與登錄表單） -->
-<section id="workshop-showcase-embed" style="max-width: 980px; margin: 28px auto; padding: 0 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;">
-  <div style="background: #ffffff; border: 1px solid #dbe4ee; border-radius: 14px; padding: 18px 20px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
-    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px;">
-      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
-        <span style="font-size: 0.9rem; font-weight: 700; color: #0f172a;">各區成果檢視：</span>
-        <button type="button" class="aits-embed-tab" data-region="北區場"
-          style="padding: 6px 14px; border-radius: 999px; border: 1px solid #0f766e; background: #0f766e; color: #ffffff; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
-          📍 北區場（龍華科大）
-        </button>
-        <button type="button" class="aits-embed-tab" data-region="中區場"
-          style="padding: 6px 14px; border-radius: 999px; border: 1px solid #cbd5e1; background: #ffffff; color: #0f172a; font-size: 0.85rem; font-weight: 500; cursor: pointer;">
-          📍 中區場（臺中科大）
-        </button>
-        <button type="button" class="aits-embed-tab" data-region="南區場"
-          style="padding: 6px 14px; border-radius: 999px; border: 1px solid #cbd5e1; background: #ffffff; color: #0f172a; font-size: 0.85rem; font-weight: 500; cursor: pointer;">
-          📍 南區場（中山大學）
-        </button>
-      </div>
-
-      <a id="aitsOpenFullPage"
-         href="https://mmdmay.github.io/AITS/showcase.html?region=北區場"
-         target="_blank"
-         rel="noopener noreferrer"
-         style="font-size: 0.84rem; color: #0f766e; font-weight: 600; text-decoration: none;">
+    <!-- 交通安全 AI 辨識工作坊｜成果展示嵌入區塊（800px 上限 + 超過時顯示下方完整頁提示連結） -->
+<section id="aits-workshop-clean-embed" style="max-width: 980px; margin: 24px auto; padding: 0 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;">
+  <div style="background: #ffffff; border: 1px solid #dbe4ee; border-radius: 14px; padding: 16px 20px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
+    <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px;">
+      <a
+        href="https://mmdmay.github.io/AITS/showcase.html"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="font-size: 0.85rem; color: #0f766e; font-weight: 600; text-decoration: none;">
         開啟完整登錄與管理頁 ↗
       </a>
     </div>
 
     <iframe
-      id="aitsCleanEmbedFrame"
-      src="https://mmdmay.github.io/AITS/showcase.html?region=北區場&embed=1"
-      title="工作坊各區成果與網址清單"
+      id="aitsCleanEmbedIframe"
+      src="https://mmdmay.github.io/AITS/showcase.html?embed=1"
+      title="工作坊各區學員成果網頁清單"
       loading="lazy"
-      style="width: 100%; height: 520px; border: 1px solid #dbe4ee; border-radius: 12px; background: #f4f7fb;"
+      style="width: 100%; min-height: 260px; max-height: 800px; height: 480px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 12px; background: #f8fafc; transition: height 0.15s ease;"
     ></iframe>
+
+    <div id="aitsOverflowNotice" style="display: none; margin-top: 10px; padding: 8px 12px; border-radius: 8px; background: #f0fdfa; border: 1px solid #99f6e4; text-align: right; font-size: 0.84rem;">
+      <a
+        href="https://mmdmay.github.io/AITS/showcase.html"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="color: #0f766e; font-weight: 600; text-decoration: none;">
+        成果較多，點擊開啟完整頁檢視全部 ↗
+      </a>
+    </div>
   </div>
 </section>
 
 <script>
   (function () {
-    const BASE_URL = "https://mmdmay.github.io/AITS/showcase.html";
-    const frame = document.getElementById("aitsCleanEmbedFrame");
-    const fullLink = document.getElementById("aitsOpenFullPage");
-    const tabs = document.querySelectorAll(".aits-embed-tab");
+    const iframe = document.getElementById("aitsCleanEmbedIframe");
+    const overflowNotice = document.getElementById("aitsOverflowNotice");
+    if (!iframe) return;
 
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", () => {
-        const region = tab.dataset.region;
-        if (frame) {
-          frame.src = `${BASE_URL}?region=${encodeURIComponent(region)}&embed=1`;
-        }
-        if (fullLink) {
-          fullLink.href = `${BASE_URL}?region=${encodeURIComponent(region)}`;
-        }
-        tabs.forEach((t) => {
-          const active = t === tab;
-          t.style.background = active ? "#0f766e" : "#ffffff";
-          t.style.color = active ? "#ffffff" : "#0f172a";
-          t.style.borderColor = active ? "#0f766e" : "#cbd5e1";
-          t.style.fontWeight = active ? "600" : "500";
-        });
-      });
+    const MIN_HEIGHT = 260;
+    const MAX_HEIGHT = 800;
+
+    const ALLOWED_ORIGINS = new Set([
+      "https://mmdmay.github.io",
+      "http://localhost:3000",
+      "http://127.0.0.1:5500",
+      "null"
+    ]);
+
+    window.addEventListener("message", (event) => {
+      if (!ALLOWED_ORIGINS.has(event.origin)) return;
+      const data = event.data;
+      if (!data || data.type !== "AITS_SHOWCASE_HEIGHT") return;
+      if (event.source && event.source !== iframe.contentWindow) return;
+
+      const rawHeight = Number(data.height);
+      if (!Number.isFinite(rawHeight) || rawHeight <= 0) return;
+
+      const fullHeight = Math.ceil(rawHeight);
+      const isOverflowing = fullHeight > MAX_HEIGHT;
+      const clampedHeight = Math.min(MAX_HEIGHT, Math.max(MIN_HEIGHT, fullHeight));
+
+      iframe.style.height = `${clampedHeight}px`;
+      iframe.style.overflowY = isOverflowing ? "auto" : "hidden";
+
+      if (overflowNotice) {
+        overflowNotice.style.display = isOverflowing ? "block" : "none";
+      }
     });
   })();
 </script>
