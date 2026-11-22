@@ -194,67 +194,41 @@
             <h2 class="text-3xl font-bold mb-4">學生網頁與競賽成果展示</h2>
             <p class="text-gray-400 mb-10">此區域將於計畫執行與競賽完畢後，展示各隊伍產出的「AI 路口診斷書面報告」、模型標註成果與優良示範網頁。</p>
             
-    <!-- 工作坊成果網頁展示｜北・中・南三區分區入口與嵌入區塊 -->
+    <!-- 工作坊成果網頁展示｜精簡嵌入版（僅顯示各區成果與網址，不含標題列與登錄表單） -->
 <section id="workshop-showcase-embed" style="max-width: 980px; margin: 28px auto; padding: 0 16px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;">
-  <div style="background: #ffffff; border: 1px solid #dbe4ee; border-radius: 14px; padding: 20px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
-    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px;">
-      <div>
-        <h3 style="margin: 0; font-size: 1.15rem; color: #0f172a;">🔗 工作坊成果網頁展示（北・中・南三區）</h3>
-        <p style="margin: 4px 0 0; font-size: 0.88rem; color: #475569;">點擊各區按鈕開啟專屬分區成果牆，或在下方直接切換預覽各區學員作品。</p>
+  <div style="background: #ffffff; border: 1px solid #dbe4ee; border-radius: 14px; padding: 18px 20px; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px;">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+        <span style="font-size: 0.9rem; font-weight: 700; color: #0f172a;">各區成果檢視：</span>
+        <button type="button" class="aits-embed-tab" data-region="北區場"
+          style="padding: 6px 14px; border-radius: 999px; border: 1px solid #0f766e; background: #0f766e; color: #ffffff; font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+          📍 北區場（龍華科大）
+        </button>
+        <button type="button" class="aits-embed-tab" data-region="中區場"
+          style="padding: 6px 14px; border-radius: 999px; border: 1px solid #cbd5e1; background: #ffffff; color: #0f172a; font-size: 0.85rem; font-weight: 500; cursor: pointer;">
+          📍 中區場（臺中科大）
+        </button>
+        <button type="button" class="aits-embed-tab" data-region="南區場"
+          style="padding: 6px 14px; border-radius: 999px; border: 1px solid #cbd5e1; background: #ffffff; color: #0f172a; font-size: 0.85rem; font-weight: 500; cursor: pointer;">
+          📍 南區場（中山大學）
+        </button>
       </div>
-      <a id="openFullShowcaseLink"
+
+      <a id="aitsOpenFullPage"
          href="https://mmdmay.github.io/AITS/showcase.html?region=北區場"
          target="_blank"
          rel="noopener noreferrer"
-         style="display: inline-block; padding: 8px 14px; border-radius: 8px; background: #0f766e; color: #ffffff; text-decoration: none; font-size: 0.88rem; font-weight: 600;">
-        開啟完整成果牆 ↗
+         style="font-size: 0.84rem; color: #0f766e; font-weight: 600; text-decoration: none;">
+        開啟完整登錄與管理頁 ↗
       </a>
-    </div>
-
-    <!-- 三區連結按鈕列 -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 16px;">
-      <a href="https://mmdmay.github.io/AITS/showcase.html?region=北區場"
-         data-region-preview="北區場"
-         target="_blank"
-         rel="noopener noreferrer"
-         style="display: block; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 10px; background: #f8fafc; color: #0f172a; text-decoration: none;">
-        <div style="font-weight: 700; color: #0f766e;">📍 北區場（龍華科技大學）</div>
-        <div style="font-size: 0.8rem; color: #475569; margin-top: 2px;">12/15 大學部・12/16 高中職 ↗</div>
-      </a>
-
-      <a href="https://mmdmay.github.io/AITS/showcase.html?region=中區場"
-         data-region-preview="中區場"
-         target="_blank"
-         rel="noopener noreferrer"
-         style="display: block; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 10px; background: #f8fafc; color: #0f172a; text-decoration: none;">
-        <div style="font-weight: 700; color: #0f766e;">📍 中區場（國立臺中科技大學）</div>
-        <div style="font-size: 0.8rem; color: #475569; margin-top: 2px;">11/26 大學部・11/27 高中職 ↗</div>
-      </a>
-
-      <a href="https://mmdmay.github.io/AITS/showcase.html?region=南區場"
-         data-region-preview="南區場"
-         target="_blank"
-         rel="noopener noreferrer"
-         style="display: block; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 10px; background: #f8fafc; color: #0f172a; text-decoration: none;">
-        <div style="font-weight: 700; color: #0f766e;">📍 南區場（國立中山大學）</div>
-        <div style="font-size: 0.8rem; color: #475569; margin-top: 2px;">12/03 大學部・12/04 高中職 ↗</div>
-      </a>
-    </div>
-
-    <!-- 內嵌預覽切換列 -->
-    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 10px;">
-      <span style="font-size: 0.84rem; color: #475569; font-weight: 600;">內嵌預覽分區：</span>
-      <button type="button" class="aits-preview-tab" data-region="北區場" style="padding: 5px 12px; border-radius: 999px; border: 1px solid #0f766e; background: #0f766e; color: #fff; font-size: 0.82rem; cursor: pointer;">北區場</button>
-      <button type="button" class="aits-preview-tab" data-region="中區場" style="padding: 5px 12px; border-radius: 999px; border: 1px solid #cbd5e1; background: #fff; color: #0f172a; font-size: 0.82rem; cursor: pointer;">中區場</button>
-      <button type="button" class="aits-preview-tab" data-region="南區場" style="padding: 5px 12px; border-radius: 999px; border: 1px solid #cbd5e1; background: #fff; color: #0f172a; font-size: 0.82rem; cursor: pointer;">南區場</button>
     </div>
 
     <iframe
-      id="aitsShowcaseFrame"
-      src="https://mmdmay.github.io/AITS/showcase.html?region=北區場"
-      title="工作坊成果網頁展示內嵌預覽"
+      id="aitsCleanEmbedFrame"
+      src="https://mmdmay.github.io/AITS/showcase.html?region=北區場&embed=1"
+      title="工作坊各區成果與網址清單"
       loading="lazy"
-      style="width: 100%; height: 680px; border: 1px solid #dbe4ee; border-radius: 12px; background: #f4f7fb;"
+      style="width: 100%; height: 520px; border: 1px solid #dbe4ee; border-radius: 12px; background: #f4f7fb;"
     ></iframe>
   </div>
 </section>
@@ -262,22 +236,25 @@
 <script>
   (function () {
     const BASE_URL = "https://mmdmay.github.io/AITS/showcase.html";
-    const frame = document.getElementById("aitsShowcaseFrame");
-    const fullLink = document.getElementById("openFullShowcaseLink");
-    const tabs = document.querySelectorAll(".aits-preview-tab");
+    const frame = document.getElementById("aitsCleanEmbedFrame");
+    const fullLink = document.getElementById("aitsOpenFullPage");
+    const tabs = document.querySelectorAll(".aits-embed-tab");
 
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {
         const region = tab.dataset.region;
-        const targetUrl = `${BASE_URL}?region=${encodeURIComponent(region)}`;
-        if (frame) frame.src = targetUrl;
-        if (fullLink) fullLink.href = targetUrl;
-
+        if (frame) {
+          frame.src = `${BASE_URL}?region=${encodeURIComponent(region)}&embed=1`;
+        }
+        if (fullLink) {
+          fullLink.href = `${BASE_URL}?region=${encodeURIComponent(region)}`;
+        }
         tabs.forEach((t) => {
           const active = t === tab;
           t.style.background = active ? "#0f766e" : "#ffffff";
           t.style.color = active ? "#ffffff" : "#0f172a";
           t.style.borderColor = active ? "#0f766e" : "#cbd5e1";
+          t.style.fontWeight = active ? "600" : "500";
         });
       });
     });
